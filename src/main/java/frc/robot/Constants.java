@@ -27,4 +27,11 @@ public final class Constants {
         public static final InvertType kRightMasterInversion = InvertType.InvertMotorOutput;
         public static final InvertType kRightFollowerInversion = InvertType.FollowMaster;
     }
+
+    public static final class Leds {
+        public static final int kVccChannel = 0;
+        public static final int kRedChannel = 2;
+        public static final int kGreenChannel = 3;
+        public static final int kBlueChannel = 1;
+    }
 }
