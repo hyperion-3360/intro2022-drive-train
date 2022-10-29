@@ -4,7 +4,11 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -16,6 +20,9 @@ public class DriveTrain extends SubsystemBase {
   private final WPI_TalonSRX m_leftFollower = new WPI_TalonSRX(kLeftFollowerId);
   private final WPI_TalonSRX m_rightMaster = new WPI_TalonSRX(kRightMasterId);
   private final WPI_TalonSRX m_rightFollower = new WPI_TalonSRX(kRightFollowerId);
+
+  private final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
+  private final NetworkTableEntry m_angleEntry = Shuffleboard.getTab("Vitals").add("Angle", 0.0).getEntry();
 
   private final DifferentialDrive m_drive = new DifferentialDrive(m_leftMaster, m_rightMaster);
 
@@ -39,6 +46,7 @@ public class DriveTrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    m_angleEntry.setDouble(this.getRotation().getDegrees());
   }
 
   /**
@@ -46,9 +54,13 @@ public class DriveTrain extends SubsystemBase {
    * @param x [-1 .. 1] positive is forward
    * @param z [-1 .. 1] positive is counter-clockwise
    */
-  public void driveArcade(double x, double z) {
+  public void driveArcade(double x, double z, boolean squareInputs) {
 
     // Flip turn axis because arcadeDrive is not NWU compliant
-    m_drive.arcadeDrive(x, -z);
+    m_drive.arcadeDrive(x, -z, squareInputs);
+  }
+
+  public Rotation2d getRotation() {
+    return m_gyro.getRotation2d().unaryMinus();
   }
 }

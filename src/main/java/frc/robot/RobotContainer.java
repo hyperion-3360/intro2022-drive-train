@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.LockHeading;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Leds;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -45,7 +46,7 @@ public class RobotContainer {
       // Controller y axis is positive right, but z rotation is NWU (positive left)
       double x = m_controller.getRightTriggerAxis() - m_controller.getLeftTriggerAxis();
       double z = -m_controller.getRightX();
-      m_driveTrain.driveArcade(x, z);
+      m_driveTrain.driveArcade(x, z, true);
     }, m_driveTrain));
 
     new JoystickButton(m_controller, XboxController.Button.kA.value)
@@ -56,6 +57,9 @@ public class RobotContainer {
         .whenPressed(new InstantCommand(m_leds::blue, m_leds));
     new JoystickButton(m_controller, XboxController.Button.kY.value)
         .whenPressed(new InstantCommand(m_leds::off, m_leds));
+    // Lock heading with right bumber
+    new JoystickButton(m_controller, XboxController.Button.kRightBumper.value)
+        .toggleWhenPressed(new LockHeading(m_driveTrain));
   }
 
   /**
