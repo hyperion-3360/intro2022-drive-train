@@ -17,6 +17,9 @@ public class DriveTrain extends SubsystemBase {
   private final WPI_TalonSRX m_rightMaster = new WPI_TalonSRX(kRightMasterId);
   private final WPI_TalonSRX m_rightFollower = new WPI_TalonSRX(kRightFollowerId);
 
+  private final WPI_TalonSRX m_leftMecanum = new WPI_TalonSRX(kLeftMecanumId);
+  private final WPI_TalonSRX m_rightMecanum = new WPI_TalonSRX(kRightMecanumId);
+
   private final DifferentialDrive m_drive = new DifferentialDrive(m_leftMaster, m_rightMaster);
 
   /** Creates a new DriveTrain. */
@@ -34,6 +37,11 @@ public class DriveTrain extends SubsystemBase {
 
     m_leftFollower.follow(m_leftMaster);
     m_rightFollower.follow(m_rightMaster);
+
+    m_leftMecanum.configFactoryDefault();
+    m_rightMecanum.configFactoryDefault();
+    m_leftMecanum.setInverted(kLeftMecanumInversion);
+    m_rightMecanum.setInverted(kRightMecanumInversion);
   }
 
   @Override
@@ -49,6 +57,29 @@ public class DriveTrain extends SubsystemBase {
   public void driveArcade(double x, double z) {
 
     // Flip turn axis because arcadeDrive is not NWU compliant
-    m_drive.arcadeDrive(x, -z);
+    m_drive.arcadeDrive(kXVelScale * x, - kZVelScale * z);
+  }
+
+  /**
+   * Open loop mecanum operation
+   * @param x [-1 .. 1] positive is forward
+   * @param y [-1 .. 1] positive is left
+   */
+  public void driveMecanum(double x, double y) {
+
+    double left = x - y;
+    double right = x + y;
+
+    m_leftMecanum.set(left);
+    m_rightMecanum.set(right);
+  }
+
+  /**
+   * Set motor safety state on mecanum drives
+   * @param isEnabled is the watchdog enabled
+   */
+  public void setMecanumSafetyEnabled(boolean isEnabled) {
+    m_leftMecanum.setSafetyEnabled(isEnabled);
+    m_rightMecanum.setSafetyEnabled(isEnabled);
   }
 }

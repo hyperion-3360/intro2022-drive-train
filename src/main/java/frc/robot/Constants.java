@@ -22,10 +22,19 @@ public final class Constants {
         public static final int kRightMasterId = 1;
         public static final int kRightFollowerId = 2;
 
+        public static final int kLeftMecanumId = 7;
+        public static final int kRightMecanumId = 11;
+
         public static final InvertType kLeftMasterInversion = InvertType.None;
         public static final InvertType kLeftFollowerInversion = InvertType.FollowMaster;
         public static final InvertType kRightMasterInversion = InvertType.InvertMotorOutput;
         public static final InvertType kRightFollowerInversion = InvertType.FollowMaster;
+
+        public static final InvertType kLeftMecanumInversion = InvertType.None;
+        public static final InvertType kRightMecanumInversion = InvertType.InvertMotorOutput;
+
+        public static final double kXVelScale = 1.0;
+        public static final double kZVelScale = 0.75;
     }
 
     public static final class Leds {

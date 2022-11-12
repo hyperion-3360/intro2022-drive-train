@@ -43,9 +43,14 @@ public class RobotContainer {
     // Drive train default is arcade drive
     m_driveTrain.setDefaultCommand(new RunCommand(() -> {
       // Controller y axis is positive right, but z rotation is NWU (positive left)
-      double x = m_controller.getRightTriggerAxis() - m_controller.getLeftTriggerAxis();
-      double z = -m_controller.getRightX();
-      m_driveTrain.driveArcade(x, z);
+      double tank_x = m_controller.getRightTriggerAxis() - m_controller.getLeftTriggerAxis();
+      double tank_z = -m_controller.getLeftX();
+      m_driveTrain.driveArcade(tank_x, tank_z);
+
+      double mecanum_x = -m_controller.getRightY();
+      double mecanum_y = -m_controller.getRightX();
+      m_driveTrain.driveMecanum(mecanum_x, mecanum_y);
+
     }, m_driveTrain));
 
     new JoystickButton(m_controller, XboxController.Button.kA.value)
@@ -66,5 +71,13 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // No autonomous for now
     return null;
+  }
+
+  /**
+   * Set motor safety states for non-drive motors
+   * @param isEnabled is the watchdog enabled
+   */
+  public void setMotorSafetyEnabled(boolean isEnabled) {
+    m_driveTrain.setMecanumSafetyEnabled(isEnabled);
   }
 }
