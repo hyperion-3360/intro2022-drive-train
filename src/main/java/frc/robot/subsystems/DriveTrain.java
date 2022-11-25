@@ -50,7 +50,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   /**
-   * Open loop drive with arcade style inputs
+   * Open loop drive with arcade style inputs.
    * @param x [-1 .. 1] positive is forward
    * @param z [-1 .. 1] positive is counter-clockwise
    */
@@ -61,7 +61,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   /**
-   * Open loop mecanum operation
+   * Open loop mecanum operation.
    * @param x [-1 .. 1] positive is forward
    * @param y [-1 .. 1] positive is left
    */
@@ -75,7 +75,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   /**
-   * Set motor safety state on mecanum drives
+   * Set motor safety state on mecanum drives.
    * @param isEnabled is the watchdog enabled
    */
   public void setMecanumSafetyEnabled(boolean isEnabled) {

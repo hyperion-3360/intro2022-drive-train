@@ -7,9 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Leds;
+import frc.robot.subsystems.Winch;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -22,7 +21,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveTrain m_driveTrain = new DriveTrain();
-  private final Leds m_leds = new Leds();
+  private final Winch m_winch = new Winch();
 
   private final XboxController m_controller = new XboxController(0);
 
@@ -53,14 +52,14 @@ public class RobotContainer {
 
     }, m_driveTrain));
 
+    // Winch default is stop
+    m_winch.setDefaultCommand(new RunCommand(m_winch::stop, m_winch));
+
+    // Winch button mapping
     new JoystickButton(m_controller, XboxController.Button.kA.value)
-        .whenPressed(new InstantCommand(m_leds::green, m_leds));
+        .whileHeld(new RunCommand(m_winch::retract, m_winch));
     new JoystickButton(m_controller, XboxController.Button.kB.value)
-        .whenPressed(new InstantCommand(m_leds::red, m_leds));
-    new JoystickButton(m_controller, XboxController.Button.kX.value)
-        .whenPressed(new InstantCommand(m_leds::blue, m_leds));
-    new JoystickButton(m_controller, XboxController.Button.kY.value)
-        .whenPressed(new InstantCommand(m_leds::off, m_leds));
+        .whileHeld(new RunCommand(m_winch::extend, m_winch));
   }
 
   /**
@@ -79,5 +78,6 @@ public class RobotContainer {
    */
   public void setMotorSafetyEnabled(boolean isEnabled) {
     m_driveTrain.setMecanumSafetyEnabled(isEnabled);
+    m_winch.setSafetyEnabled(isEnabled);
   }
 }

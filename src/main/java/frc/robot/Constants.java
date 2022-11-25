@@ -43,4 +43,10 @@ public final class Constants {
         public static final int kGreenChannel = 3;
         public static final int kBlueChannel = 1;
     }
+
+    public static final class Winch {
+        public static final int kMotorId = 19;
+        public static final double kRetractSpeed = 1.0;
+        public static final double kExtendSpeed = -1.0;
+    }
 }
