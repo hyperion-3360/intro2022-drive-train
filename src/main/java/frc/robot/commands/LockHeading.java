@@ -15,9 +15,7 @@ public class LockHeading extends CommandBase {
 
   private final DriveTrain m_driveTrain;
   private final PIDController m_pid = new PIDController(kP, kI, kD);
-  private final NetworkTableEntry m_errorEntry = Shuffleboard.getTab("Vitals").add("Angle Error", 0.0).getEntry();
-  private final NetworkTableEntry m_zCommandEntry = Shuffleboard.getTab("Vitals").add("Commanded Z", 0.0).getEntry();
-
+ 
   /** Creates a new LockHeading. */
   public LockHeading(DriveTrain driveTrain) {
 
@@ -38,8 +36,6 @@ public class LockHeading extends CommandBase {
   public void execute() {
     double zCommand = m_pid.calculate(m_driveTrain.getRotation().getRadians());
     m_driveTrain.driveArcade(0.0, zCommand, false);
-    m_errorEntry.setDouble(m_pid.getPositionError());
-    m_zCommandEntry.setDouble(zCommand);
   }
 
   // Called once the command ends or is interrupted.

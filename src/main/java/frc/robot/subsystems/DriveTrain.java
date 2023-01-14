@@ -22,7 +22,6 @@ public class DriveTrain extends SubsystemBase {
   private final WPI_TalonSRX m_rightFollower = new WPI_TalonSRX(kRightFollowerId);
 
   private final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
-  private final NetworkTableEntry m_angleEntry = Shuffleboard.getTab("Vitals").add("Angle", 0.0).getEntry();
 
   private final DifferentialDrive m_drive = new DifferentialDrive(m_leftMaster, m_rightMaster);
 
@@ -46,7 +45,6 @@ public class DriveTrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    m_angleEntry.setDouble(this.getRotation().getDegrees());
   }
 
   /**
