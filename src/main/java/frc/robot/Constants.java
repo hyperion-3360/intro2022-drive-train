@@ -24,19 +24,15 @@ public final class Constants {
 
         public static final InvertType kLeftMasterInversion = InvertType.None;
         public static final InvertType kLeftFollowerInversion = InvertType.FollowMaster;
-        public static final InvertType kRightMasterInversion = InvertType.InvertMotorOutput;
-        public static final InvertType kRightFollowerInversion = InvertType.FollowMaster;
-
-        public static final double kP = 1.5;
-        public static final double kD = 0.15;
-        public static final double kI = 0.0;
-        public static final double kIntegratorRange = 0.3;
+        public static final InvertType kRightMasterInversion = InvertType.None;
+        public static final InvertType kRightFollowerInversion = InvertType.OpposeMaster;
     }
 
-    public static final class Leds {
-        public static final int kVccChannel = 0;
-        public static final int kRedChannel = 2;
-        public static final int kGreenChannel = 3;
-        public static final int kBlueChannel = 1;
+    public static final class Intake {
+        public static final int kIntakeId = 8;
+        public static final int kWheelId = 11;
+
+        public static final double kIntakeSpeed = 0.5;
+        public static final double kWheelSpeed = 0.5;
     }
 }

@@ -6,13 +6,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.LockHeading;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Leds;
+import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -23,9 +21,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveTrain m_driveTrain = new DriveTrain();
-  private final Leds m_leds = new Leds();
+  private final Intake m_intake = new Intake();
 
-  private final XboxController m_controller = new XboxController(0);
+  private final CommandXboxController m_controller = new CommandXboxController(0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -49,17 +47,10 @@ public class RobotContainer {
       m_driveTrain.driveArcade(x, z, true);
     }, m_driveTrain));
 
-    new JoystickButton(m_controller, XboxController.Button.kA.value)
-        .whenPressed(new InstantCommand(m_leds::green, m_leds));
-    new JoystickButton(m_controller, XboxController.Button.kB.value)
-        .whenPressed(new InstantCommand(m_leds::red, m_leds));
-    new JoystickButton(m_controller, XboxController.Button.kX.value)
-        .whenPressed(new InstantCommand(m_leds::blue, m_leds));
-    new JoystickButton(m_controller, XboxController.Button.kY.value)
-        .whenPressed(new InstantCommand(m_leds::off, m_leds));
-    // Lock heading with right bumber
-    new JoystickButton(m_controller, XboxController.Button.kRightBumper.value)
-        .toggleWhenPressed(new LockHeading(m_driveTrain));
+    m_controller.a().onTrue(m_intake.startIntake());
+    m_controller.b().onTrue(m_intake.stopIntake());
+    m_controller.x().onTrue(m_intake.startWheel());
+    m_controller.y().onTrue(m_intake.stopWheel());
   }
 
   /**
