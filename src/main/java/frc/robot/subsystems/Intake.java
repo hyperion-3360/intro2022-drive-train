@@ -22,6 +22,7 @@ public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
   public Intake() {
     m_intake.restoreFactoryDefaults();
+    m_intake.setInverted(kIntakeInverted);
     m_intake.burnFlash();
     m_wheel.configFactoryDefault();
   }

@@ -32,7 +32,8 @@ public final class Constants {
         public static final int kIntakeId = 8;
         public static final int kWheelId = 11;
 
-        public static final double kIntakeSpeed = 0.5;
+        public static final double kIntakeSpeed = 1.0;
+        public static final boolean kIntakeInverted = true;
         public static final double kWheelSpeed = 0.5;
     }
 }
